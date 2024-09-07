@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Time Chatbox Simulation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .chatbox {
+      width: 400px;
+      height: 600px;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chatbox-header {
+      background: linear-gradient(45deg, #00c6ff, #0072ff);
+      padding: 20px;
+      color: white;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .chatbox-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 70%;
+      clear: both;
+    }
+
+    .chatbox-messages .message {
+      background: linear-gradient(90deg, #f8ffae, #43c6ac);
+    }
+
+    .chatbox-messages .message.user-message {
+      background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+      text-align: right;
+      margin-left: auto;
+    }
+
+    .chatbox-input {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: 15px;
+      border-top: 1px solid #ccc;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .chatbox-input input {
+      width: calc(100% - 80px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+    }
+
+    .chatbox-input button {
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chatbox">
+    <!-- Chatbox header -->
+    <div class="chatbox-header">Real-Time Chatbox</div>
+
+    <!-- Chatbox messages container -->
+    <div class="chatbox-messages" id="chatbox-messages">
+      <!-- Sample initial messages -->
+      <div class="message">Hello! How can I assist you?</div>
+    </div>
+
+    <!-- Chatbox input -->
+    <div class="chatbox-input">
+      <input type="text" id="message-input" placeholder="Type your message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Reference to the chatbox messages container
+    const chatboxMessages = document.getElementById('chatbox-messages');
+    
+    // Function to simulate sending a message
+    function sendMessage() {
+      const messageInput = document.getElementById('message-input');
+      const messageText = messageInput.value;
+
+      if (messageText.trim() === '') {
+        return; // Don't send empty messages
+      }
+
+      // Create a new message div for the user message
+      const userMessage = document.createElement('div');
+      userMessage.classList.add('message', 'user-message');
+      userMessage.textContent = messageText;
+
+      // Append the user message to the chatbox
+      chatboxMessages.appendChild(userMessage);
+      messageInput.value = ''; // Clear input field
+
+      // Simulate a response from the bot after a short delay
+      setTimeout(() => {
+        const botMessage = document.createElement('div');
+        botMessage.classList.add('message');
+        botMessage.textContent = getBotResponse(messageText);
+
+        // Append the bot message to the chatbox
+        chatboxMessages.appendChild(botMessage);
+
+        // Scroll to the bottom of the chatbox to show the new message
+        chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
+      }, 1000);
+    }
+
+    // Function to simulate a bot response
+    function getBotResponse(message) {
+      const responses = [
+        "I'm sorry, can you clarify?",
+        "That sounds interesting!",
+        "How can I help with that?",
+        "I'm here to assist you.",
+        "Let's figure this out together."
+      ];
+
+      // Simple bot logic (random response)
+      return responses[Math.floor(Math.random() * responses.length)];
+    }
+  </script>
+
+</body>
+</html>
